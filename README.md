@@ -48,7 +48,19 @@ The author has explained how it was doing in an article called ["The Mystery of 
 
 I just tried to do the same but with php.
 
-Due to the algorithm itself, it might be more resource-intensive than other solutions, but I didn't do any benchmark.
+## Perfs
+
+Due to the algorithm itself, it might be more resource-intensive than other solutions.
+
+Here are some benchmarks:
+
+`CharlieEtienne\PaletteGenerator::generatePalette('#ad70e5')`
+- Execution time: ~0.00033 seconds per run
+- Benchmark speed: ~3,030 ops/sec
+
+Tests were done on a MB Air M2, inside a Laravel app.
+
+To improve performance, you might want to cache the results.
 
 ## Contribute
 
