@@ -155,21 +155,33 @@ class PaletteGenerator
 
         $target = compact('targetHex', 'targetRgb', 'targetXyz', 'targetLab', 'targetOklch');
 
-        $palette = self::tailwindColors();
+        $colors = self::tailwindColors();
+        $l = $targetLab[0];
+        $lBucket = floor($l / 1000) * 1000;
+
+        // Search in the target partition and adjacent partitions
+        $searchPartitions = [
+            $lBucket - 1000 => $colors['partitions'][$lBucket - 1000] ?? [],
+            $lBucket => $colors['partitions'][$lBucket] ?? [],
+            $lBucket + 1000 => $colors['partitions'][$lBucket + 1000] ?? []
+        ];
 
         $closest = null;
         $bestScore = INF;
 
-        foreach ($palette as $tColor) {
-            $tailwindLab = $tColor['lab'];
-            $dE = self::delta2000($tailwindLab, $targetLab);
-            if ($dE < $bestScore) {
-                $bestScore = $dE;
-                $closest = $tColor;
+        foreach ($searchPartitions as $partition) {
+            foreach ($partition as $tColor) {
+                $tailwindLab = $tColor['lab'];
+                $dE = self::delta2000($tailwindLab, $targetLab);
+                if ($dE < $bestScore) {
+                    $bestScore = $dE;
+                    $closest = $tColor;
+                }
             }
         }
 
-        $paletteForClosest = array_filter($palette, fn($tColor) => $tColor['color'] === $closest['color']);
+
+        $paletteForClosest = array_filter($colors['data'], fn($tColor) => $tColor['color'] === $closest['color']);
 
         return compact('closest', 'paletteForClosest', 'target');
     }
@@ -226,12 +238,31 @@ class PaletteGenerator
         return self::generateShiftedTailwindOklchPalette($data);
     }
 
+    private static function createPartitions(array $colors): array
+    {
+        // Create partitions based on L value ranges (for example)
+        $partitions = [];
+
+        foreach ($colors as $color) {
+            $l = $color['lab'][0];
+            $lBucket = floor($l / 1000) * 1000; // Group by thousands
+
+            if (!isset($partitions[$lBucket])) {
+                $partitions[$lBucket] = [];
+            }
+
+            $partitions[$lBucket][] = $color;
+        }
+
+        return $partitions;
+    }
+
     public static function tailwindColors(): array
     {
         static $colors = null;
 
         if ($colors === null) {
-            $colors = [
+            $baseColors = [
                 ['color' => "red", 'shade' => '950', 'hex' => "#450a0a", 'oklch' => [0.258, 0.092, 26.042], 'lab' => [1971.3709384916, 2216.0130526537, 1716.5312373228]],
                 ['color' => "red", 'shade' => '900', 'hex' => "#7f1d1d", 'oklch' => [0.396, 0.141, 25.723], 'lab' => [3293.0797012382, 3441.0289974955, 2389.6075988485]],
                 ['color' => "red", 'shade' => '800', 'hex' => "#991b1b", 'oklch' => [0.444, 0.177, 26.899], 'lab' => [3766.4780996281, 4128.2595584532, 3078.6503284467]],
@@ -474,6 +505,12 @@ class PaletteGenerator
                 ['color' => "slate", 'shade' => '200', 'hex' => "#e2e8f0", 'oklch' => [0.929, 0.013, 255.508], 'lab' => [8640.3480825494, -44.226054778854, -388.76045054083]],
                 ['color' => "slate", 'shade' => '100', 'hex' => "#f1f5f9", 'oklch' => [0.968, 0.007, 247.896], 'lab' => [9030.6212025539, -51.326517436443, -202.27047932117]],
                 ['color' => "slate", 'shade' => '50', 'hex' => "#f8fafc", 'oklch' => [0.984, 0.003, 247.858], 'lab' => [9186.332736135, -26.098761819142, -100.66450195788]],
+            ];
+
+            // Create the partitioned array
+            $colors = [
+                'data' => $baseColors,
+                'partitions' => self::createPartitions($baseColors)
             ];
         }
 
