@@ -55,8 +55,8 @@ Due to the algorithm itself, it might be more resource-intensive than other solu
 Here are some benchmarks:
 
 `CharlieEtienne\PaletteGenerator::generatePalette('#ad70e5')`
-- Execution time: ~0.00033 seconds per run
-- Benchmark speed: ~3,030 ops/sec
+- Execution time: ~0.00012 seconds per run
+- Benchmark speed: ~8,155 ops/sec
 
 Tests were done on a MB Air M2, inside a Laravel app.
 
