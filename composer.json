@@ -13,6 +13,7 @@
     "php": "^8.4"
   },
   "require-dev": {
+    "pestphp/pest": "^2.0"
   },
   "extra": {
     "laravel": {
@@ -28,7 +29,16 @@
   },
   "autoload-dev": {
     "psr-4": {
+      "Tests\\": "tests/"
     }
   },
-  "minimum-stability": "stable"
+  "scripts": {
+    "test": "vendor/bin/pest"
+  },
+  "minimum-stability": "stable",
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  }
 }
