@@ -48,6 +48,11 @@ The author has explained how it was doing in an article called ["The Mystery of 
 
 I just tried to do the same but with php.
 
+## Example
+
+<img width="1174" alt="palette-generator" src="https://github.com/user-attachments/assets/b3a27896-4b05-4b01-9b71-9e4d178c05a3" />
+
+
 ## Perfs
 
 Due to the algorithm itself, it might be more resource-intensive than other solutions.
