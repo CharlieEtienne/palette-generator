@@ -94,10 +94,10 @@ class PaletteGenerator
         return [$r, $g, $b];
     }
 
-    public static function delta2000(array $rgb1, array $rgb2): float
+    public static function delta2000(array $lab1, array $lab2): float
     {
-        [$l1, $a1, $b1] = $rgb1;
-        [$l2, $a2, $b2] = $rgb2;
+        [$l1, $a1, $b1] = $lab1;
+        [$l2, $a2, $b2] = $lab2;
 
         $avg_lp     = ($l1 + $l2) / 2;
         $c1         = sqrt(pow($a1, 2) + pow($b1, 2));
@@ -148,7 +148,7 @@ class PaletteGenerator
     public static function nearestTailwindColor(string $color): array
     {
         $targetHex = $color;
-        $targetRgb = self::hexToRGBArray($color);
+        $targetRgb = self::hexToRGBArray($targetHex);
         $targetXyz = self::rgbToXyz($targetRgb);
         $targetLab = self::xyzToLab($targetXyz);
         $targetOklch = self::rgbToOklch($targetRgb);
