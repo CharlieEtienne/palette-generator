@@ -28,8 +28,10 @@ function benchmark($x): float
 
 // Run calibration benchmark
 $calibration = benchmark(function() {});
-echo "Calibration: " . $calibration . ' ops/sec' . PHP_EOL;
 
 // Run actual benchmark
 $benchmark = benchmark(fn() => PaletteGenerator::generatePalette('#3b82f6'));
-echo "Benchmark: " . $benchmark . ' ops/sec' . PHP_EOL;
+
+echo "Calibration run: " . number_format($calibration) . " ops/sec\n";
+echo "Benchmark run: " . number_format($benchmark) . " ops/sec\n";
+echo 'Approximate code execution time (seconds): ' . number_format((1/$benchmark) - (1/$calibration), 10);
