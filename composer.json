@@ -33,7 +33,8 @@
     }
   },
   "scripts": {
-    "test": "vendor/bin/pest"
+    "test": "vendor/bin/pest",
+    "benchmark": "php benchmark.php"
   },
   "minimum-stability": "stable",
   "config": {
