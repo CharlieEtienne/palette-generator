@@ -1,6 +1,6 @@
 # Palette Generator
 
-A PHP library for generating tailwind v4 color palettes from a hexadecimal color.
+A PHP library for generating Tailwind v4 color palettes from a hexadecimal color.
 
 ## Installation
 
@@ -12,7 +12,7 @@ composer require charlieetienne/palette-generator
 
 This package only requires PHP 8.4.
 
-For Laravel users, this package will be auto-detected thanks to `PaletteGeneratorServiceProvider`.
+For Laravel users, this package will be auto-discovered thanks to `PaletteGeneratorServiceProvider`.
 
 ## Usage
 
@@ -41,21 +41,21 @@ $palette = PaletteGenerator::generatePalette('#3b82f6');
 ## How it works
 
 This package was inspired by [uihue](https://www.uihue.com/) from Matteo Frana.
-The author has explained how it was doing in an article called ["The Mystery of Tailwind Colors (v4)"](https://dev.to/matfrana/the-mystery-of-tailwind-colors-v4-hjh), but the short version is:
+The author detailed his method in an article called ["The Mystery of Tailwind Colors (v4)"](https://dev.to/matfrana/the-mystery-of-tailwind-colors-v4-hjh), but the short version is:
 
 1. Use the DeltaE 2000 algorithm to iterate through the Tailwind CSS colors and find the nearest match
 2. Apply this delta with a smoothing effect as we approach the extreme light and dark hues to preserve the color's distinctive features.
 
-I just tried to do the same but with php.
+I simply tried to do the same in PHP.
 
 ## Example
 
 <img width="1174" alt="palette-generator" src="https://github.com/user-attachments/assets/b3a27896-4b05-4b01-9b71-9e4d178c05a3" />
 
 
-## Perfs
+## Performance
 
-Due to the algorithm itself, it might be more resource-intensive than other solutions.
+Due to the algorithm itself, it may be more resource-intensive than other solutions.
 
 Here are some benchmarks:
 
@@ -63,9 +63,9 @@ Here are some benchmarks:
 - Execution time: ~0.00012 seconds per run
 - Benchmark speed: ~8,155 ops/sec
 
-Tests were done on a MB Air M2, inside a Laravel app.
+Tests were run on a MB Air M2, inside a Laravel app.
 
-To improve performance, you might want to cache the results.
+To improve performance, you may want to cache the results.
 
 ## Contribute
 
